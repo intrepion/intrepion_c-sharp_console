@@ -1,0 +1,26 @@
+# /docker-compose.yml
+
+---
+services:
+  c-sharp:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ../../${GITHUB_NAME}/${REPO_NAME}/${APP_NAME}:/app
+
+  c-sharp-new:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.new
+    volumes:
+      # Mount the repository directory where we'll create the new project
+      - ../../${GITHUB_NAME}/${REPO_NAME}:/app
+      # Mount our local files directory into the container
+      - ./files:/files
+      # Mount our local scripts directory into the container
+      - ./scripts:/scripts
+    environment:
+      - APP_NAME=${APP_NAME}
+      - GITHUB_NAME=${GITHUB_NAME}
+      - REPO_NAME=${REPO_NAME}
